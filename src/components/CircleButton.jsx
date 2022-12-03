@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { string, shape } from 'prop-types';
 import { Feather } from '@expo/vector-icons';

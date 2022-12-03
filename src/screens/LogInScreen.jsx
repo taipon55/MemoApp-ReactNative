@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import AppBar from '../components/AppBar';
 import Button from '../components/Button';
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   inner: {
     paddingHorizontal: 27,
     paddingVertical: 24,
-    marginBottom: 'bold',
+    fontWeightn: 'bold',
     marginBottom: 24,
   },
   title: {
