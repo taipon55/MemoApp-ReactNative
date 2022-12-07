@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import firebase from 'firebase';
 import Button from '../components/Button';
 
 export default function SignUpScreen(props) {
@@ -8,10 +9,21 @@ export default function SignUpScreen(props) {
   const [password, setPassword] = useState('');
 
   function handlePress() {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'MemoList' }],
-    });
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        const { user } = userCredential;
+        console.log(user.uid);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MemoList' }],
+        });
+      })
+      .catch((error) => {
+        console.log(error.code, error.message);
+        Alert.alert(error.code);
+      });
   }
 
   return (

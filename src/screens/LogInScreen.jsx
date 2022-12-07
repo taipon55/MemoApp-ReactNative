@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Button from '../components/Button';
+import firebase from 'firebase';
 
 export default function LogInScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  function handlePress() {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        const { user } = userCredential;
+        console.log(user.uid);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MemoList' }],
+        });
+      })
+      .catch((error) => {
+        Alert.alert(error.code);
+      });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
@@ -32,25 +51,10 @@ export default function LogInScreen(props) {
           secureTextEntry
           textContentType="password"
         />
-        <Button
-          label="Submit"
-          onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'MemoList' }],
-            });
-          }}
-        />
+        <Button label="Submit" onPress={handlePress} />
         <View style={styles.footer}>
           <Text style={styles.footerText}>Not resistered?</Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.reset({
-                index: 0,
-                routes: [{ name: 'SignUp' }],
-              });
-            }}
-          >
+          <TouchableOpacity onPress={handlePress}>
             <Text style={styles.footerLink}>Sign up here!</Text>
           </TouchableOpacity>
         </View>
