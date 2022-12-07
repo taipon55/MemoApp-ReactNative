@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
+import firebase from 'firebase';
+
 import MemoListScreen from './src/screens/MemoListScreen';
 import LogInScreen from './src/screens/LogInScreen';
 import MemoCreateScreen from './src/screens/MemoCreateScreen';
@@ -9,6 +11,19 @@ import MemoEditScreen from './src/screens/MemoEditScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 
 const Stack = createStackNavigator();
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyAa6TLPrxGGXYYpxKTNL-ZPNP7fHmfZKLw',
+  authDomain: 'memoapp-7fdc0.firebaseapp.com',
+  projectId: 'memoapp-7fdc0',
+  storageBucket: 'memoapp-7fdc0.appspot.com',
+  messagingSenderId: '771401049016',
+  appId: '1:771401049016:web:a3e240ac8ada62319f654d',
+};
+
+if (firebase.apps.length === 0) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 export default function App() {
   return (
