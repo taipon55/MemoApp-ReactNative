@@ -14,7 +14,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="LogIn"
+        initialRouteName="SignUp"
         screenOptions={{
           headerStyle: { backgroundColor: 'blue' },
           headerTitleStyle: { color: 'white' },
@@ -22,8 +22,6 @@ export default function App() {
           headerTintColor: 'white',
           headerBackTitle: 'Back',
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          gestureEnabled: ture,
-          gestureDirection: 'horizontal',
         }}
       >
         <Stack.Screen name="MemoList" component={MemoListScreen} />
