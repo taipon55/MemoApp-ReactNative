@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import CircleButton from '../components/CircleButton';
+import { shape, string } from 'prop-types';
 
 export default function MemoDetailScreen(props) {
-  const { navigation } = props;
+  const { navigation, route } = props;
+  const { id } = route.params;
+  console.log(id);
   return (
     <View style={styles.container}>
       <View style={styles.memoHeader}>
@@ -26,6 +29,12 @@ export default function MemoDetailScreen(props) {
     </View>
   );
 }
+
+MemoDetailScreen.propTypes = {
+  route: shape({
+    params: shape({ id: string }),
+  }).isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {
