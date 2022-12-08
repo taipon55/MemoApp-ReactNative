@@ -1,39 +1,49 @@
 import React from 'react';
 import { Feather } from '@expo/vector-icons';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { shape, string, instanceOf, arrayOf } from 'prop-types';
 
 export default function MemoList(props) {
   const { memos } = props;
   const navigatioon = useNavigation();
+
+  function renderItem({ item }) {
+    return (
+      <TouchableOpacity
+        style={styles.memoListItem}
+        onPress={() => {
+          navigatioon.navigate('MemoDetail');
+        }}
+      >
+        <View>
+          <Text style={styles.memoListItemTitle} numberOfLines={1}>
+            {item.bodyText}
+          </Text>
+          <Text style={styles.memoListItemDate}>{String(item.updatedAt)}</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.memoDelete}
+          onPress={() => {
+            Alert.alert('Are you sure?');
+          }}
+        >
+          <Feather name="x" size={16} />
+        </TouchableOpacity>
+      </TouchableOpacity>
+    );
+  }
+
   return (
     <>
       <View>
-        {memos.map((memo) => {
-          return (
-            <TouchableOpacity
-              key={memo.id}
-              style={styles.memoListItem}
-              onPress={() => {
-                navigatioon.navigate('MemoDetail');
-              }}
-            >
-              <View>
-                <Text style={styles.memoListItemTitle}>{memo.bodyText}</Text>
-                <Text style={styles.memoListItemDate}>{String(memo.updatedAt)}</Text>
-              </View>
-              <TouchableOpacity
-                style={styles.memoDelete}
-                onPress={() => {
-                  Alert.alert('Are you sure?');
-                }}
-              >
-                <Feather name="x" size={16} />
-              </TouchableOpacity>
-            </TouchableOpacity>
-          );
-        })}
+        <FlatList
+          data={memos}
+          renderItem={renderItem}
+          keyExtractor={(item) => {
+            return item.id;
+          }}
+        />
       </View>
     </>
   );
