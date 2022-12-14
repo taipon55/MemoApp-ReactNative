@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert, Text } from 'react-native';
 import firebase from 'firebase';
+import Button from '../components/Button';
 
 import CircleButton from '../components/CircleButton';
 import MemoList from '../components/MemoList';
@@ -44,6 +45,23 @@ export default function MemoListScreen(props) {
     return unsubscribe;
   }, []);
 
+  if (memos.length === 0) {
+    return (
+      <View style={emptyStyles.container}>
+        <View style={emptyStyles.inner}>
+          <Text style={emptyStyles.title}>最初のメモを作成しよう！</Text>
+          <Button
+            style={emptyStyles.button}
+            label="作成する"
+            onPress={() => {
+              navigation.navigate('MemoCreate');
+            }}
+          />
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <MemoList memos={memos} />
@@ -61,5 +79,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+});
+
+const emptyStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  inner: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 14,
+    marginBottom: 24,
+  },
+  button: {
+    alignSelf: 'center',
   },
 });
