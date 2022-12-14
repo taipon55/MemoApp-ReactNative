@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'reac
 import Button from '../components/Button';
 import firebase from 'firebase';
 import Loading from '../components/Loading';
+import { translateErrors } from '../utils';
 
 export default function LogInScreen(props) {
   const { navigation } = props;
@@ -38,7 +39,8 @@ export default function LogInScreen(props) {
         });
       })
       .catch((error) => {
-        Alert.alert(error.code);
+        const errorMsg = translateErrors(error.code);
+        Alert.alert(errorMsg.title, errorMsg.description);
       })
       .then(() => {
         setLoading(false);
@@ -75,7 +77,14 @@ export default function LogInScreen(props) {
         <Button label="Submit" onPress={handlePress} />
         <View style={styles.footer}>
           <Text style={styles.footerText}>Not resistered?</Text>
-          <TouchableOpacity onPress={handlePress}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'SignUp' }],
+              });
+            }}
+          >
             <Text style={styles.footerLink}>Sign up here!</Text>
           </TouchableOpacity>
         </View>
